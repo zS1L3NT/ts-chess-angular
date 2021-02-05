@@ -1,0 +1,25 @@
+:host {
+	@media only screen and (min-width: 768px) {
+		height: 100vh;
+		width: 100vh;
+	}
+	@media only screen and (max-width: 767px) {
+		height: 100vw;
+		width: 100vw;
+	}
+
+	display: block;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	transition: filter 0.4s 1.5s;
+
+	background-image: url(https://images.chesscomfiles.com/chess-themes/boards/green/150.png);
+	background-size: cover;
+
+	&.darken {
+		filter: brightness(0.5);
+		pointer-events: none
+	}
+}

@@ -1,0 +1,29 @@
+:host {
+	@media only screen and (min-width: 768px) {
+		height: 12.5vh;
+		width: 12.5vh;
+	}
+	@media only screen and (max-width: 767px) {
+		height: 12.5vw;
+		width: 12.5vw;
+		border-width: 3px;
+	}
+
+	display: block;
+	position: absolute;
+	z-index: 1;
+
+	border: 5px solid #F7F769;
+	border-radius: 25%;
+	opacity: 0;
+
+	&.show {
+		transition: transform 0.2s, opacity 0.2s 0.2s;
+		opacity: 1;
+	}
+
+	&.hide {
+		transition: transform 0.2s 0.2s, opacity 0.2s;
+		opacity: 0;
+	}
+}

@@ -1,0 +1,54 @@
+:host {
+	width: fit-content;
+	height: fit-content;
+	padding: 1.5rem;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%) scale(0);
+
+	background-color: #e9e9ad;
+	border-radius: 25px;
+	z-index: 2;
+
+	transition: transform 0.4s 1.5s cubic-bezier(0.74, 1.05, 0.57, 1.21);
+
+	&.show {
+		transform: translate(-50%, -50%) scale(1);
+	}
+
+	.status {
+		font-family: "Fira Sans", cursive;
+		@media only screen and (min-width: 768px) {
+			font-size: 4vw;
+		}
+		@media only screen and (max-width: 767px) {
+			font-size: 4vh;
+		}
+	}
+
+	.new-game {
+		margin-top: 0.5rem;
+		padding: 0.8rem;
+
+		cursor: pointer;
+
+		border: none;
+		outline: none;
+		background: beige;
+		border-radius: 25px;
+
+		@media only screen and (min-width: 768px) {
+			font-size: 2vw;
+		}
+		@media only screen and (max-width: 767px) {
+			font-size: 2vh;
+		}
+	}
+}

@@ -1,0 +1,8 @@
+<app-board
+	[class]="team + (BoardService.getWinner() ? ' darken' : '')"
+	[team]="team"
+></app-board>
+<app-win-banner
+	[team]="team"
+	[class]="BoardService.getWinner() ? 'show' : ''"
+></app-win-banner>

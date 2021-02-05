@@ -1,0 +1,117 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+@font-face {
+	font-family: HachiMaruPop-Regular;
+	src: url(/assets/HachiMaruPop-Regular.ttf);
+}
+
+html,
+body,
+app-root {
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	background-image: url(/assets/background.jpg);
+	background-size: cover;
+	background-position: center;
+}
+
+@keyframes fade {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+router-outlet + * {
+	display: block; /* Change display inline to block */
+	animation: fade 0.5s;
+}
+
+app-root {
+	display: block;
+	margin: 0 auto;
+}
+
+app-board {
+	&.white {
+		@for $i from 1 through 8 {
+			.A#{$i} {
+				transform: translate(0, (8 - $i) * 100%);
+			}
+
+			.B#{$i} {
+				transform: translate(100%, (8 - $i) * 100%);
+			}
+
+			.C#{$i} {
+				transform: translate(200%, (8 - $i) * 100%);
+			}
+
+			.D#{$i} {
+				transform: translate(300%, (8 - $i) * 100%);
+			}
+
+			.E#{$i} {
+				transform: translate(400%, (8 - $i) * 100%);
+			}
+
+			.F#{$i} {
+				transform: translate(500%, (8 - $i) * 100%);
+			}
+
+			.G#{$i} {
+				transform: translate(600%, (8 - $i) * 100%);
+			}
+
+			.H#{$i} {
+				transform: translate(700%, (8 - $i) * 100%);
+			}
+		}
+	}
+
+	&.black {
+		@for $i from 1 through 8 {
+			.A#{$i} {
+				transform: translate(700% - 0, 700% - (8 - $i) * 100%);
+			}
+
+			.B#{$i} {
+				transform: translate(700% - 100%, 700% - (8 - $i) * 100%);
+			}
+
+			.C#{$i} {
+				transform: translate(700% - 200%, 700% - (8 - $i) * 100%);
+			}
+
+			.D#{$i} {
+				transform: translate(700% - 300%, 700% - (8 - $i) * 100%);
+			}
+
+			.E#{$i} {
+				transform: translate(700% - 400%, 700% - (8 - $i) * 100%);
+			}
+
+			.F#{$i} {
+				transform: translate(700% - 500%, 700% - (8 - $i) * 100%);
+			}
+
+			.G#{$i} {
+				transform: translate(700% - 600%, 700% - (8 - $i) * 100%);
+			}
+
+			.H#{$i} {
+				transform: translate(700% - 700%, 700% - (8 - $i) * 100%);
+			}
+		}
+	}
+}

@@ -1,0 +1,65 @@
+:host {
+	@media only screen and (min-width: 768px) {
+		height: 12.5vh;
+		width: 12.5vh;
+	}
+	@media only screen and (max-width: 767px) {
+		height: 12.5vw;
+		width: 12.5vw;
+	}
+
+	display: block;
+	position: absolute;
+
+	transition: transform 0.5s cubic-bezier(.35,.9,.48,.95), border-width 0.3s;
+	background-size: cover;
+	cursor: pointer;
+	
+	&.bg-wk {
+		background-image: url(https://images.chesscomfiles.com/chess-themes/pieces/bases/150/wk.png)
+	}
+	
+	&.bg-wq {
+		background-image: url(https://images.chesscomfiles.com/chess-themes/pieces/bases/150/wq.png)
+	}
+	
+	&.bg-wr {
+		background-image: url(https://images.chesscomfiles.com/chess-themes/pieces/bases/150/wr.png)
+	}
+	
+	&.bg-wb {
+		background-image: url(https://images.chesscomfiles.com/chess-themes/pieces/bases/150/wb.png)
+	}
+	
+	&.bg-wn {
+		background-image: url(https://images.chesscomfiles.com/chess-themes/pieces/bases/150/wn.png)
+	}
+	
+	&.bg-wp {
+		background-image: url(https://images.chesscomfiles.com/chess-themes/pieces/bases/150/wp.png)
+	}
+	
+	&.bg-bk {
+		background-image: url(https://images.chesscomfiles.com/chess-themes/pieces/bases/150/bk.png)
+	}
+	
+	&.bg-bq {
+		background-image: url(https://images.chesscomfiles.com/chess-themes/pieces/bases/150/bq.png)
+	}
+	
+	&.bg-br {
+		background-image: url(https://images.chesscomfiles.com/chess-themes/pieces/bases/150/br.png)
+	}
+	
+	&.bg-bb {
+		background-image: url(https://images.chesscomfiles.com/chess-themes/pieces/bases/150/bb.png)
+	}
+	
+	&.bg-bn {
+		background-image: url(https://images.chesscomfiles.com/chess-themes/pieces/bases/150/bn.png)
+	}
+	
+	&.bg-bp {
+		background-image: url(https://images.chesscomfiles.com/chess-themes/pieces/bases/150/bp.png)
+	}
+}

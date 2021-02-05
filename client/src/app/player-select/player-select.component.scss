@@ -1,0 +1,56 @@
+:host {
+	height: 100%;
+	width: 100%;
+
+	padding: 7.5rem 3rem;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+
+	.title {
+		font-family: Poppins;
+		color: white;
+		line-height: 1;
+		@media only screen and (min-width: 768px) {
+			font-size: 7.5vw;
+		}
+		@media only screen and (max-width: 767px) {
+			font-size: 7.5vh;
+		}
+	}
+
+	.byline {
+		color: white;
+		@media only screen and (min-width: 768px) {
+			font-size: 2vw;
+		}
+		@media only screen and (max-width: 767px) {
+			font-size: 2vh;
+		}
+	}
+
+	.bottom {
+		display: flex;
+		flex-direction: column;
+
+		button {
+			margin: 0.5rem;
+			padding: 1rem 5rem;
+
+			outline: none;
+			border: none;
+
+			font-size: 24px;
+			border-radius: 25px;
+			background-color: #769656;
+
+			cursor: pointer;
+
+			&.white {
+				color: #FFF;
+			}
+		}
+	}
+}

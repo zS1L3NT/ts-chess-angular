@@ -1,0 +1,25 @@
+:host {
+	@media only screen and (min-width: 768px) {
+		height: 12.5vh;
+		width: 12.5vh;
+	}
+	@media only screen and (max-width: 767px) {
+		height: 12.5vw;
+		width: 12.5vw;
+	}
+	
+	z-index: 1;
+
+	display: block;
+	position: absolute;
+
+	opacity: 0;
+	transition: opacity 0.1s;
+	border: 3px solid rgb(255, 0, 0);
+
+	cursor: pointer;
+
+	&.attacked {
+		opacity: 1;
+	}
+}

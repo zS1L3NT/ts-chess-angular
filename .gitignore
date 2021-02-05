@@ -5,10 +5,4 @@
 
 /client/node_modules
 /client/e2e
-/client/src
 /client/*.*
-
-/server/board
-/server/PGNs
-/server/pieces
-/server/*.*

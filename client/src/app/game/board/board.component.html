@@ -1,0 +1,42 @@
+<app-select-border
+	[class]="currentBoardCode + ' ' + (currentBoardCode ? 'show' : 'hide')"
+></app-select-border>
+<ng-container *ngFor="let boardCode of BoardService.getAllBoardCodes()">
+	<ng-container *ngIf="hasAMove(boardCode)">
+		<app-attacked-border
+			*ngFor="
+				let attackedBoardCode of findMoveDestinationsWherePredator(
+					boardCode
+				)
+			"
+			[class]="
+				currentBoardCode === boardCode
+					? attackedBoardCode + ' show'
+					: boardCode
+			"
+		></app-attacked-border>
+	</ng-container>
+	<app-hasmove-border
+		*ngIf="BoardService.getPiece(boardCode)?.team === team"
+		[class]="
+			boardCode + (hasAMove(boardCode) && turn === team ? ' show' : '')
+		"
+	>
+	</app-hasmove-border>
+</ng-container>
+
+<!-- Tiles -->
+<app-tile
+	*ngFor="let boardCode of BoardService.getAllBoardCodes()"
+	[class]="boardCode"
+	(click)="click(boardCode)"
+></app-tile>
+<!-- End of tiles -->
+
+<!-- Pieces -->
+<app-piece
+	*ngFor="let piece of state"
+	@piece
+	[class]="piece.boardCode + ' bg-' + formFileName(piece.boardCode)"
+></app-piece>
+<!-- End of Pieces -->
