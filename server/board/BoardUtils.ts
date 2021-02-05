@@ -1,4 +1,4 @@
-import DetailedError from "../DetailedError"
+import { DetailedError } from "../_interfaces"
 import Bishop from "../pieces/Bishop"
 import King from "../pieces/King"
 import Knight from "../pieces/Knight"

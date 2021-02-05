@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const DetailedError_1 = __importDefault(require("../DetailedError"));
+const _interfaces_1 = require("../_interfaces");
 const Bishop_1 = __importDefault(require("../pieces/Bishop"));
 const King_1 = __importDefault(require("../pieces/King"));
 const Knight_1 = __importDefault(require("../pieces/Knight"));
@@ -15,7 +15,7 @@ const Tile_1 = __importDefault(require("./Tile"));
 class BoardUtils {
     static getBoardCode(position) {
         if (!this.isValidPosition(position)) {
-            throw new DetailedError_1.default(`Position (${position}) is not valid`);
+            throw new _interfaces_1.DetailedError(`Position (${position}) is not valid`);
         }
         const letter = [..."ABCDEFGH"][position % 8];
         const number = (8 - ((position / 8) << 0)) << 0;
@@ -23,7 +23,7 @@ class BoardUtils {
     }
     static getPosition(boardCode) {
         if (!this.isValidBoardCode(boardCode)) {
-            throw new DetailedError_1.default(`Board Code ${boardCode} is not valid`);
+            throw new _interfaces_1.DetailedError(`Board Code ${boardCode} is not valid`);
         }
         const letter = boardCode[0];
         const number = +boardCode[1];

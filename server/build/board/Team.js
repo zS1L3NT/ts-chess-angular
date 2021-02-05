@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const DetailedError_1 = __importDefault(require("../DetailedError"));
+const _interfaces_1 = require("../_interfaces");
 const King_1 = __importDefault(require("../pieces/King"));
 const BoardUtils_1 = __importDefault(require("./BoardUtils"));
 class Team {
@@ -48,7 +48,7 @@ class Team {
                 return piece.getPosition();
             }
         }
-        throw new DetailedError_1.default("King not found???", board.printable());
+        throw new _interfaces_1.DetailedError("King not found???", board.printable());
     }
     /**
      * @time 1ms ~ 5ms

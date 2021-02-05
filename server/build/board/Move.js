@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExecutePromote = exports.ExecuteEnPassant = exports.ExecuteCastle = exports.ExecuteAttack = exports.ExecuteShift = void 0;
-const DetailedError_1 = __importDefault(require("../DetailedError"));
+const _interfaces_1 = require("../_interfaces");
 const Bishop_1 = __importDefault(require("../pieces/Bishop"));
 const Knight_1 = __importDefault(require("../pieces/Knight"));
 const Queen_1 = __importDefault(require("../pieces/Queen"));
@@ -12,14 +12,14 @@ const Rook_1 = __importDefault(require("../pieces/Rook"));
 const BoardUtils_1 = __importDefault(require("./BoardUtils"));
 const ExecuteShift = (move, board) => {
     if (!move.destination)
-        throw new DetailedError_1.default("No destination", board.printable(), move);
+        throw new _interfaces_1.DetailedError("No destination", board.printable(), move);
     const predatorPosition = BoardUtils_1.default.getPosition(move.predator);
     const destinationPosition = BoardUtils_1.default.getPosition(move.destination);
     const predatorTile = board.getTile(predatorPosition);
     const destinationTile = board.getTile(destinationPosition);
     const predator = predatorTile.getPiece();
     if (!predator)
-        throw new DetailedError_1.default(`Tile ${predatorTile.getBoardCode()} has no piece!`, board.printable(), move);
+        throw new _interfaces_1.DetailedError(`Tile ${predatorTile.getBoardCode()} has no piece!`, board.printable(), move);
     predatorTile.clearPiece();
     destinationTile.setPiece(predator);
     predator.setPosition(destinationPosition);
@@ -27,16 +27,16 @@ const ExecuteShift = (move, board) => {
 exports.ExecuteShift = ExecuteShift;
 const ExecuteAttack = (move, board) => {
     if (!move.prey)
-        throw new DetailedError_1.default("No prey position", board.printable(), move);
+        throw new _interfaces_1.DetailedError("No prey position", board.printable(), move);
     const predatorPosition = BoardUtils_1.default.getPosition(move.predator);
     const preyPosition = BoardUtils_1.default.getPosition(move.prey);
     const predatorTile = board.getTile(predatorPosition);
     const preyTile = board.getTile(preyPosition);
     const predator = predatorTile.getPiece();
     if (!predator)
-        throw new DetailedError_1.default(`Tile ${predatorPosition} has no piece!`, board.printable(), move);
+        throw new _interfaces_1.DetailedError(`Tile ${predatorPosition} has no piece!`, board.printable(), move);
     if (preyTile.isEmpty())
-        throw new DetailedError_1.default(`Tile ${preyPosition} has no piece!`, board.printable(), move);
+        throw new _interfaces_1.DetailedError(`Tile ${preyPosition} has no piece!`, board.printable(), move);
     preyTile.clearPiece();
     predatorTile.clearPiece();
     preyTile.setPiece(predator);
@@ -48,13 +48,13 @@ const ExecuteCastle = (move, board) => {
     const predatorTile = board.getTile(predatorPosition);
     const predator = predatorTile.getPiece();
     if (!predator)
-        throw new DetailedError_1.default(`Tile ${predatorPosition} has no piece!`, board.printable(), move);
+        throw new _interfaces_1.DetailedError(`Tile ${predatorPosition} has no piece!`, board.printable(), move);
     const row = move.predator[1];
     if (move.destination === `C${row}`) {
         const rookTile = board.getTile(BoardUtils_1.default.getPosition(`A${row}`));
         const rook = rookTile.getPiece();
         if (!(rook instanceof Rook_1.default))
-            throw new DetailedError_1.default(`Piece on ${move.destination} isn't a rook`, board.printable(), move);
+            throw new _interfaces_1.DetailedError(`Piece on ${move.destination} isn't a rook`, board.printable(), move);
         predatorTile.clearPiece();
         rookTile.clearPiece();
         board.getTile(BoardUtils_1.default.getPosition(`D${row}`)).setPiece(rook);
@@ -66,7 +66,7 @@ const ExecuteCastle = (move, board) => {
         const rookTile = board.getTile(BoardUtils_1.default.getPosition(`H${row}`));
         const rook = rookTile.getPiece();
         if (!(rook instanceof Rook_1.default))
-            throw new DetailedError_1.default(`Piece on ${move.destination} isn't a rook`, board.printable(), move);
+            throw new _interfaces_1.DetailedError(`Piece on ${move.destination} isn't a rook`, board.printable(), move);
         predatorTile.clearPiece();
         rookTile.clearPiece();
         board.getTile(BoardUtils_1.default.getPosition(`F${row}`)).setPiece(rook);
@@ -75,13 +75,13 @@ const ExecuteCastle = (move, board) => {
         predator.setPosition(BoardUtils_1.default.getPosition(`G${row}`));
     }
     else {
-        throw new DetailedError_1.default(`Invalid King destination (${move.destination})`, board.printable(), move);
+        throw new _interfaces_1.DetailedError(`Invalid King destination (${move.destination})`, board.printable(), move);
     }
 };
 exports.ExecuteCastle = ExecuteCastle;
 const ExecuteEnPassant = (move, board) => {
     if (!move.prey)
-        throw new DetailedError_1.default("No prey position", board.printable(), move);
+        throw new _interfaces_1.DetailedError("No prey position", board.printable(), move);
     const predatorPosition = BoardUtils_1.default.getPosition(move.predator);
     const preyPosition = BoardUtils_1.default.getPosition(move.prey);
     const destinationPosition = BoardUtils_1.default.getPosition(move.destination);
@@ -90,11 +90,11 @@ const ExecuteEnPassant = (move, board) => {
     const destinationTile = board.getTile(destinationPosition);
     const predator = predatorTile.getPiece();
     if (!predator)
-        throw new DetailedError_1.default(`Tile ${predatorPosition} has no piece!`, board.printable(), move);
+        throw new _interfaces_1.DetailedError(`Tile ${predatorPosition} has no piece!`, board.printable(), move);
     if (preyTile.isEmpty())
-        throw new DetailedError_1.default(`Tile ${preyPosition} has no piece!`, board.printable(), move);
+        throw new _interfaces_1.DetailedError(`Tile ${preyPosition} has no piece!`, board.printable(), move);
     if (destinationTile.isOccupied())
-        throw new DetailedError_1.default(`Destination ${destinationPosition} has a piece!`, board.printable(), move);
+        throw new _interfaces_1.DetailedError(`Destination ${destinationPosition} has a piece!`, board.printable(), move);
     preyTile.clearPiece();
     predatorTile.clearPiece();
     destinationTile.setPiece(predator);
@@ -103,14 +103,14 @@ const ExecuteEnPassant = (move, board) => {
 exports.ExecuteEnPassant = ExecuteEnPassant;
 const ExecutePromote = (move, board) => {
     if (!move.promote)
-        throw new DetailedError_1.default("No promoted selection", board.printable(), move);
+        throw new _interfaces_1.DetailedError("No promoted selection", board.printable(), move);
     const predatorPosition = BoardUtils_1.default.getPosition(move.predator);
     const destinationPosition = BoardUtils_1.default.getPosition(move.destination);
     const predatorTile = board.getTile(predatorPosition);
     const destinationTile = board.getTile(destinationPosition);
     const predator = predatorTile.getPiece();
     if (!predator)
-        throw new DetailedError_1.default(`Tile ${predatorPosition} has no piece!`, board.printable(), move);
+        throw new _interfaces_1.DetailedError(`Tile ${predatorPosition} has no piece!`, board.printable(), move);
     if (destinationTile.isOccupied()) {
         destinationTile.clearPiece();
     }
@@ -130,7 +130,7 @@ const ExecutePromote = (move, board) => {
             piece = new Rook_1.default(destinationPosition, predator.getTeam(), []);
             break;
         default:
-            throw new DetailedError_1.default(`No piece ${move.promote} to be promoted`, board.printable(), move);
+            throw new _interfaces_1.DetailedError(`No piece ${move.promote} to be promoted`, board.printable(), move);
     }
     destinationTile.setPiece(piece);
 };

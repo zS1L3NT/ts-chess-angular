@@ -1,4 +1,4 @@
-import DetailedError from "../DetailedError"
+import { DetailedError } from "../_interfaces"
 import King from "../pieces/King"
 import Board from "./Board"
 import BoardUtils from "./BoardUtils"

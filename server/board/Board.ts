@@ -7,7 +7,7 @@ import Move, {
 } from "./Move"
 import Tile from "./Tile"
 import Team from "./Team"
-import DetailedError from "../DetailedError"
+import { DetailedError } from "../_interfaces"
 export default class Board {
 	private board: Tile[] = []
 	public epts: string

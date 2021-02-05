@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Move_1 = require("./Move");
 const Team_1 = __importDefault(require("./Team"));
-const DetailedError_1 = __importDefault(require("../DetailedError"));
+const _interfaces_1 = require("../_interfaces");
 class Board {
     constructor(epts, tiles) {
         this.board = [];
@@ -38,7 +38,7 @@ class Board {
                 Move_1.ExecutePromote(move, boardCopy);
                 break;
             default:
-                throw new DetailedError_1.default(`Invalid move type (${move.type})`, move);
+                throw new _interfaces_1.DetailedError(`Invalid move type (${move.type})`, move);
         }
         boardCopy.epts = "";
         return boardCopy;
