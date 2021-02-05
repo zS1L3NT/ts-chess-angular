@@ -98,6 +98,13 @@ export const ValidateBoardBody = (
 	return board as APIPiece[]
 }
 
+export const ValidateDepth = (res: Response, depth: any) => {
+	if (typeof depth !== "number") {
+		res.status(400).send(`depth must be a number but got (${depth})`)
+	}
+	return depth as number
+}
+
 export const ValidateEPTS = (res: Response, epts: any): string | undefined => {
 	if (typeof epts !== "string") {
 		res.status(400).send(

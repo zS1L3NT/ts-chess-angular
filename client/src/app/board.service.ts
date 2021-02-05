@@ -40,10 +40,10 @@ export class BoardService {
 	/**
 	 * Get the move by the AI from the server
 	 */
-	public getComputerMove(team: Team) {
+	public getComputerMove(team: Team, depth: number) {
 		return this.http.post<Move>(
 			`${this.host}/api/getComputerMove/${team}`,
-			this.httpBody()
+			{ ...this.httpBody(), depth }
 		)
 	}
 
@@ -70,7 +70,6 @@ export class BoardService {
 			const piece = this.getPiece(keys[i])
 			if (piece) board.push(piece)
 		}
-		console.log("Sent: ", { board, epts: this.epts })
 		return { board, epts: this.epts }
 	}
 

@@ -30,7 +30,6 @@ app.use(function (_req, res, next) {
     next();
 });
 app.post("/api/getAllSafeMoves", (req, res) => {
-    console.time("getAllSafeMoves");
     const { board: boardUnverified, epts: eptsUnverified } = req.body;
     const board = conversions_1.ValidateBoardBody(res, boardUnverified);
     const epts = conversions_1.ValidateEPTS(res, eptsUnverified);
@@ -51,14 +50,15 @@ app.post("/api/getAllSafeMoves", (req, res) => {
         white: new Team_1.default("white").getAllSafeMoves(game),
         black: new Team_1.default("black").getAllSafeMoves(game)
     });
-    console.timeEnd("getAllSafeMoves");
 });
 app.post("/api/getComputerMove/:team", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("getComputerMove...");
     console.time("getComputerMove");
-    const { board: boardUnverified, epts: eptsUnverified } = req.body;
+    const { board: boardUnverified, epts: eptsUnverified, depth: depthUnverified } = req.body;
     const { team: teamUnverified } = req.params;
     const board = conversions_1.ValidateBoardBody(res, boardUnverified);
     const epts = conversions_1.ValidateEPTS(res, eptsUnverified);
+    const depth = conversions_1.ValidateDepth(res, depthUnverified);
     const team = conversions_1.ValidateTeamParam(res, teamUnverified);
     if (!team || !board || typeof epts !== "string")
         return undefined;
@@ -73,11 +73,10 @@ app.post("/api/getComputerMove/:team", (req, res) => __awaiter(void 0, void 0, v
         map[position].setPiece(conversions_1.ConvertPiece(piece));
     }
     const game = new Board_1.default(epts, map);
-    res.send(new Bot_1.default(game, new Team_1.default(team)).getBestMove());
+    res.send(new Bot_1.default(game, new Team_1.default(team), depth).getBestMove());
     console.timeEnd("getComputerMove");
 }));
 app.post("/api/getGameStatus", (req, res) => {
-    console.time("getGameStatus");
     const { board: boardUnverified, epts: eptsUnverified } = req.body;
     const board = conversions_1.ValidateBoardBody(res, boardUnverified);
     const epts = conversions_1.ValidateEPTS(res, eptsUnverified);
@@ -120,7 +119,6 @@ app.post("/api/getGameStatus", (req, res) => {
             res.status(200).send({ status: "black" });
         }
     }
-    console.timeEnd("getGameStatus");
 });
 app.use(express_1.default.static(path_1.default.resolve(__dirname, "..", "..", "client", "dist")));
 app.get("*", (_req, res) => {

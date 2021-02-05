@@ -7,10 +7,10 @@ import Bot from "./Bot"
 import {
 	ConvertPiece,
 	ValidateBoardBody,
+	ValidateDepth,
 	ValidateEPTS,
 	ValidateTeamParam
 } from "./conversions"
-import { APIBody, APIParams } from "./_interfaces"
 import path from "path"
 
 const app = express()
@@ -28,8 +28,7 @@ app.use(function (_req, res, next) {
 })
 
 app.post("/api/getAllSafeMoves", (req, res) => {
-	console.time("getAllSafeMoves")
-	const { board: boardUnverified, epts: eptsUnverified } = req.body as APIBody
+	const { board: boardUnverified, epts: eptsUnverified } = req.body
 
 	const board = ValidateBoardBody(res, boardUnverified)
 	const epts = ValidateEPTS(res, eptsUnverified)
@@ -54,16 +53,21 @@ app.post("/api/getAllSafeMoves", (req, res) => {
 		white: new Team("white").getAllSafeMoves(game),
 		black: new Team("black").getAllSafeMoves(game)
 	})
-	console.timeEnd("getAllSafeMoves")
 })
 
 app.post("/api/getComputerMove/:team", async (req, res) => {
+	console.log("getComputerMove...")
 	console.time("getComputerMove")
-	const { board: boardUnverified, epts: eptsUnverified } = req.body as APIBody
-	const { team: teamUnverified } = (req.params as unknown) as APIParams
+	const {
+		board: boardUnverified,
+		epts: eptsUnverified,
+		depth: depthUnverified
+	} = req.body
+	const { team: teamUnverified } = req.params
 
 	const board = ValidateBoardBody(res, boardUnverified)
 	const epts = ValidateEPTS(res, eptsUnverified)
+	const depth = ValidateDepth(res, depthUnverified)
 	const team = ValidateTeamParam(res, teamUnverified)
 	if (!team || !board || typeof epts !== "string") return undefined
 
@@ -82,13 +86,12 @@ app.post("/api/getComputerMove/:team", async (req, res) => {
 	}
 
 	const game = new Board(epts, map)
-	res.send(new Bot(game, new Team(team)).getBestMove())
+	res.send(new Bot(game, new Team(team), depth).getBestMove())
 	console.timeEnd("getComputerMove")
 })
 
 app.post("/api/getGameStatus", (req, res) => {
-	console.time("getGameStatus")
-	const { board: boardUnverified, epts: eptsUnverified } = req.body as APIBody
+	const { board: boardUnverified, epts: eptsUnverified } = req.body
 
 	const board = ValidateBoardBody(res, boardUnverified)
 	const epts = ValidateEPTS(res, eptsUnverified)
@@ -137,8 +140,6 @@ app.post("/api/getGameStatus", (req, res) => {
 			res.status(200).send({ status: "black" })
 		}
 	}
-
-	console.timeEnd("getGameStatus")
 })
 
 app.use(express.static(path.resolve(__dirname, "..", "..", "client", "dist")))

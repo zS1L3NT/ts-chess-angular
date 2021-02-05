@@ -83,20 +83,37 @@ export class BoardComponent implements OnInit, OnDestroy {
 	 * Then get's your legal moves
 	 */
 	executeComputerMove() {
-		this.BoardService.getComputerMove(
-			this.team === "white" ? "black" : "white"
-		).subscribe(move => {
-			if (move) {
-				this.BoardService.execute(move)
-				this.turn = this.team
-				this.getYourLegalMoves()
-			} else {
-				this.BoardService.getGameStatus().subscribe(({ status }) => {
-					this.BoardService.setWinner(status)
-				})
-			}
-		}, error => {
-				
+		this.BoardService.getComputerMove(this.enemy, 1).subscribe(D1move => {
+			console.log("AI D1 Move: ", D1move)
+			this.BoardService.getComputerMove(this.enemy, 2).subscribe(
+				D2move => {
+					console.log("AI D2 Move: ", D2move)
+					if (D2move) {
+						this.BoardService.execute(D2move)
+						this.turn = this.team
+						this.getYourLegalMoves()
+					} else {
+						this.BoardService.getGameStatus().subscribe(
+							({ status }) => {
+								this.BoardService.setWinner(status)
+							}
+						)
+					}
+				},
+				() => {
+					if (D1move) {
+						this.BoardService.execute(D1move)
+						this.turn = this.team
+						this.getYourLegalMoves()
+					} else {
+						this.BoardService.getGameStatus().subscribe(
+							({ status }) => {
+								this.BoardService.setWinner(status)
+							}
+						)
+					}
+				}
+			)
 		})
 	}
 

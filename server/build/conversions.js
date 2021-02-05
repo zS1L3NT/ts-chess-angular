@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ValidateEPTS = exports.ValidateBoardBody = exports.ValidateTeamParam = exports.ConvertPiece = void 0;
+exports.ValidateEPTS = exports.ValidateDepth = exports.ValidateBoardBody = exports.ValidateTeamParam = exports.ConvertPiece = void 0;
 const BoardUtils_1 = __importDefault(require("./board/BoardUtils"));
 const Team_1 = __importDefault(require("./board/Team"));
 const Bishop_1 = __importDefault(require("./pieces/Bishop"));
@@ -77,6 +77,13 @@ const ValidateBoardBody = (res, board) => {
     return board;
 };
 exports.ValidateBoardBody = ValidateBoardBody;
+const ValidateDepth = (res, depth) => {
+    if (typeof depth !== "number") {
+        res.status(400).send(`depth must be a number but got (${depth})`);
+    }
+    return depth;
+};
+exports.ValidateDepth = ValidateDepth;
 const ValidateEPTS = (res, epts) => {
     if (typeof epts !== "string") {
         res.status(400).send(`epts must be a string or empty but got (${epts})`);
