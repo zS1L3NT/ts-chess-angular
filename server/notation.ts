@@ -86,6 +86,10 @@ export default class Notation {
 		/******************************
 		 * Test for identical piece type and move
 		 */
+
+		// Identical pieces with the same move
+		const identicalMovePieces = []
+
 		for (let i = 0; i < 64; i++) {
 			const piece = this.board.getTile(i).getPiece()
 			if (
@@ -98,16 +102,25 @@ export default class Notation {
 				for (let i = 0, il = moves.length; i < il; i++) {
 					const move = moves[i]
 					if (move.destination === this.move.destination) {
-						if (move.predator[0] === this.move.predator[0]) {
-							this.fileRankBoardCode = this.move.predator[1]
-						} else if (move.predator[1] === this.move.predator[1]) {
-							this.fileRankBoardCode = this.move.predator[0]
-						} else {
-							this.fileRankBoardCode = this.move.predator
-						}
+						identicalMovePieces.push(piece)
+						break
 					}
 				}
 			}
+		}
+
+		if (identicalMovePieces.length === 1) {
+			const boardCode = BoardUtils.getBoardCode(
+				identicalMovePieces[0].getPosition()
+			)
+
+			if (boardCode[0] === this.move.predator[0]) {
+				this.fileRankBoardCode = this.move.predator[1]
+			} else {
+				this.fileRankBoardCode = this.move.predator[0]
+			}
+		} else if (identicalMovePieces.length === 2) {
+			this.fileRankBoardCode = this.move.predator
 		}
 
 		return this.compile()
