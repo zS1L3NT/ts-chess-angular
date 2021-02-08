@@ -126,10 +126,10 @@ export default class Notation {
 
 	private typeCastle(): string {
 		switch (this.move.destination[0]) {
-			case "A":
+			case "C":
 				return "O-O-O"
-			case "H":
-				return "O-O-O"
+			case "G":
+				return "O-O"
 			default:
 				throw new DetailedError(
 					`Invalid castle destination`,
