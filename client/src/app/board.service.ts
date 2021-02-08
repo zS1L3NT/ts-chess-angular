@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core"
 import { MoveService } from "./move.service"
-import { APIPiece, Board, Move, Team } from "./_interfaces"
+import { APIPiece, Board, APIMove, Team } from "./_interfaces"
 
 @Injectable({
 	providedIn: "root"
@@ -12,6 +12,7 @@ export class BoardService {
 	private winner: "white" | "black" | "draw" | "" = ""
 	private onchange: ((board: Board) => void) | undefined
 	private history: string[] = []
+	private boardNotationHistory: string[] = []
 	private host
 
 	constructor(private http: HttpClient, private MoveService: MoveService) {
@@ -31,7 +32,7 @@ export class BoardService {
 	 * Get all legal moves for a team from the server
 	 */
 	public getAllLegalMoves() {
-		return this.http.post<{ white: Move[]; black: Move[] }>(
+		return this.http.post<{ white: APIMove[]; black: APIMove[] }>(
 			`${this.host}/api/getAllSafeMoves`,
 			this.httpBody()
 		)
@@ -41,7 +42,7 @@ export class BoardService {
 	 * Get the move by the AI from the server
 	 */
 	public getComputerMove(team: Team, depth: number) {
-		return this.http.post<Move>(
+		return this.http.post<APIMove>(
 			`${this.host}/api/getComputerMove/${team}`,
 			{ ...this.httpBody(), depth }
 		)
@@ -110,7 +111,8 @@ export class BoardService {
 		this.epts = ""
 	}
 
-	public execute(move: Move) {
+	public execute(move: APIMove) {
+		this.boardNotationHistory.push(move.notation)
 		if (!move.destination)
 			throw new Error(`No destination in (${JSON.stringify(move)})`)
 
@@ -140,7 +142,7 @@ export class BoardService {
 		this.onchange ? this.onchange(this.state) : null
 	}
 
-	public pushFENtoHistory(moves: Move[]) {
+	public pushFENtoHistory(moves: APIMove[]) {
 		let fen: string[] = ["", ""]
 		let number = "8"
 		let count = 0

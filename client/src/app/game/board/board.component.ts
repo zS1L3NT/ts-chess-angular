@@ -1,7 +1,7 @@
 import { animate, style, transition, trigger } from "@angular/animations"
 import { Component, Input, OnDestroy, OnInit } from "@angular/core"
 import { BoardService } from "../../board.service"
-import { Board, Move, Team } from "../../_interfaces"
+import { Board, APIMove, Team } from "../../_interfaces"
 
 @Component({
 	selector: "app-board",
@@ -23,7 +23,7 @@ export class BoardComponent implements OnInit, OnDestroy {
 
 	turn: "white" | "black" = "white"
 	state: Board = []
-	legalMoves: Move[] = []
+	legalMoves: APIMove[] = []
 
 	constructor(public BoardService: BoardService) {}
 
@@ -120,7 +120,7 @@ export class BoardComponent implements OnInit, OnDestroy {
 	/**
 	 * Play against yourself
 	 */
-	flipTeam(moves: Move[]) {
+	flipTeam(moves: APIMove[]) {
 		const enemy = this.enemy
 		this.enemy = this.team
 		this.team = enemy
@@ -130,7 +130,7 @@ export class BoardComponent implements OnInit, OnDestroy {
 	/**
 	 * Finds a move in the list of legal moves where predator and destination
 	 */
-	findMove(predator: string, destination: string): Move | null {
+	findMove(predator: string, destination: string): APIMove | null {
 		for (let i = 0, il = this.legalMoves.length; i < il; i++) {
 			const move = this.legalMoves[i]
 			if (move.predator === predator && move.destination === destination)

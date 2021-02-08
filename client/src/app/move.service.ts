@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core"
-import { APIPiece, Board, Move } from "./_interfaces"
+import { APIPiece, Board, APIMove } from "./_interfaces"
 
 @Injectable({
 	providedIn: "root"
@@ -43,7 +43,7 @@ export class MoveService {
 	public executeShift(
 		setEPTS: (epts: string) => void,
 		state: Board,
-		move: Move
+		move: APIMove
 	) {
 		const predator = this.assertPiece(state, move.predator)
 		const destination = this.getPiece(state, move.destination)
@@ -68,7 +68,7 @@ export class MoveService {
 		predator.boardCode = move.destination
 	}
 
-	public executeAttack(state: Board, move: Move) {
+	public executeAttack(state: Board, move: APIMove) {
 		const predator = this.assertPiece(state, move.predator)
 		const prey = this.assertPiece(state, move.prey)
 
@@ -78,7 +78,7 @@ export class MoveService {
 		predator.boardCode = move.destination
 	}
 
-	public executeCastle(state: Board, move: Move) {
+	public executeCastle(state: Board, move: APIMove) {
 		const predator = this.assertPiece(state, move.predator)
 		const row = move.predator[1]
 
@@ -109,7 +109,7 @@ export class MoveService {
 		}
 	}
 
-	public executePromote(state: Board, move: Move) {
+	public executePromote(state: Board, move: APIMove) {
 		const predator = this.assertPiece(state, move.predator)
 		const promote = move.promote
 		if (!promote) throw new Error(`No desired promoted piece`)

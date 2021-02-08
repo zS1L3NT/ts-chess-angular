@@ -1,6 +1,9 @@
 import { Response } from "express"
+import Board from "./board/Board"
 import BoardUtils from "./board/BoardUtils"
+import Move, { APIMove } from "./board/Move"
 import Team from "./board/Team"
+import Notation from "./notation"
 import Bishop from "./pieces/Bishop"
 import King from "./pieces/King"
 import Knight from "./pieces/Knight"
@@ -28,6 +31,11 @@ export const ConvertPiece = (piece: APIPiece) => {
 			return new Pawn(position, team, piece.history)
 	}
 }
+
+export const addNotation = (board: Board, move: Move): APIMove => ({
+	...move,
+	notation: new Notation(board, move).getString()
+})
 
 export const ValidateTeamParam = (
 	res: Response,
@@ -107,9 +115,7 @@ export const ValidateDepth = (res: Response, depth: any) => {
 
 export const ValidateEPTS = (res: Response, epts: any): string | undefined => {
 	if (typeof epts !== "string") {
-		res.status(400).send(
-			`epts must be a string or empty but got (${epts})`
-		)
+		res.status(400).send(`epts must be a string or empty but got (${epts})`)
 		return
 	}
 	if (!epts) return epts as string

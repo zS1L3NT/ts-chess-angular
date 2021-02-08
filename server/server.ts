@@ -5,6 +5,7 @@ import Team from "./board/Team"
 import Tile from "./board/Tile"
 import Bot from "./Bot"
 import {
+	addNotation,
 	ConvertPiece,
 	ValidateBoardBody,
 	ValidateDepth,
@@ -12,7 +13,6 @@ import {
 	ValidateTeamParam
 } from "./conversions"
 import path from "path"
-
 const app = express()
 const PORT = process.env.PORT || 5000
 
@@ -49,9 +49,14 @@ app.post("/api/getAllSafeMoves", (req, res) => {
 	}
 
 	const game = new Board(epts, map)
+
 	res.send({
-		white: new Team("white").getAllSafeMoves(game),
-		black: new Team("black").getAllSafeMoves(game)
+		white: new Team("white")
+			.getAllSafeMoves(game)
+			.map(move => addNotation(game, move)),
+		black: new Team("black")
+			.getAllSafeMoves(game)
+			.map(move => addNotation(game, move))
 	})
 })
 
@@ -86,7 +91,8 @@ app.post("/api/getComputerMove/:team", async (req, res) => {
 	}
 
 	const game = new Board(epts, map)
-	res.send(new Bot(game, new Team(team), depth).getBestMove())
+	const move = new Bot(game, new Team(team), depth).getBestMove()
+	res.send(addNotation(game, move))
 	console.timeEnd("getComputerMove")
 })
 

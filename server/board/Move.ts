@@ -23,6 +23,10 @@ export default interface Move {
 	promote?: "Queen" | "Rook" | "Bishop" | "Knight"
 }
 
+export interface APIMove extends Move {
+	notation: string
+}
+
 export const ExecuteShift = (move: Move, board: Board) => {
 	if (!move.destination)
 		throw new DetailedError("No destination", board.printable(), move)

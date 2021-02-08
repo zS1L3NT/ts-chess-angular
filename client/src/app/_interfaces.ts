@@ -5,12 +5,13 @@ export interface APIPiece {
 	history: string[]
 }
 
-export interface Move {
+export interface APIMove {
 	type: "Shift" | "Attack" | "Castle" | "EnPassant" | "Promote"
 	predator: string
 	destination: string
 	prey?: string
 	promote?: "Queen" | "Rook" | "Bishop" | "Knight"
+	notation: string
 }
 
 export type Board = APIPiece[]
