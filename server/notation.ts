@@ -52,8 +52,6 @@ export default class Notation {
 	}
 
 	public getString(): string {
-		console.log(this.move)
-
 		if (this.move.type === "Castle") return this.typeCastle()
 		if (this.move.prey) this.attacking = true
 		if (this.move.promote) this.promotes = this.move.promote[0]

@@ -106,9 +106,13 @@ export const ValidateBoardBody = (
 	return board as APIPiece[]
 }
 
-export const ValidateDepth = (res: Response, depth: any) => {
+export const ValidateDepth = (
+	res: Response,
+	depth: any
+): number | undefined => {
 	if (typeof depth !== "number") {
 		res.status(400).send(`depth must be a number but got (${depth})`)
+		return
 	}
 	return depth as number
 }
@@ -126,4 +130,33 @@ export const ValidateEPTS = (res: Response, epts: any): string | undefined => {
 		return
 	}
 	return epts as string
+}
+
+export const ValidateHistory = (
+	res: Response,
+	history: any
+): string[] | undefined => {
+	if (typeof history !== "object") {
+		res.status(400).send(
+			`history must be a list of strings but got (${history})`
+		)
+		return
+	}
+	if (typeof history[0] === "undefined") {
+		res.status(400).send(
+			`history must be a list of strings but got (${history})`
+		)
+		return
+	}
+	for (let i = 0, il = history.length; i < il; i++) {
+		const item = history[i]
+		if (typeof item !== "string") {
+			res.status(400).send(
+				`hitory must be a list of strings but item at ${i} is (${history[i]})`
+			)
+			return
+		}
+	}
+
+	return history as string[]
 }

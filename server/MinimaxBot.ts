@@ -2,7 +2,7 @@ import Board from "./board/Board"
 import Move from "./board/Move"
 import Team from "./board/Team"
 
-export default class Bot {
+export default class MinimaxBot {
 	private board: Board
 	private team: Team
 	private depth: number

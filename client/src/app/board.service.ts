@@ -44,7 +44,7 @@ export class BoardService {
 	public getComputerMove(team: Team, depth: number) {
 		return this.http.post<APIMove>(
 			`${this.host}/api/getComputerMove/${team}`,
-			{ ...this.httpBody(), depth }
+			{ ...this.httpBody(), depth, history: this.boardNotationHistory }
 		)
 	}
 

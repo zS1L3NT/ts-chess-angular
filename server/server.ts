@@ -3,13 +3,14 @@ import Board from "./board/Board"
 import BoardUtils from "./board/BoardUtils"
 import Team from "./board/Team"
 import Tile from "./board/Tile"
-import Bot from "./Bot"
+import MinimaxBot from "./MinimaxBot"
 import {
 	addNotation,
 	ConvertPiece,
 	ValidateBoardBody,
 	ValidateDepth,
 	ValidateEPTS,
+	ValidateHistory,
 	ValidateTeamParam
 } from "./conversions"
 import path from "path"
@@ -66,15 +67,18 @@ app.post("/api/getComputerMove/:team", async (req, res) => {
 	const {
 		board: boardUnverified,
 		epts: eptsUnverified,
-		depth: depthUnverified
+		depth: depthUnverified,
+		history: historyUnverified
 	} = req.body
 	const { team: teamUnverified } = req.params
 
 	const board = ValidateBoardBody(res, boardUnverified)
 	const epts = ValidateEPTS(res, eptsUnverified)
 	const depth = ValidateDepth(res, depthUnverified)
+	const history = ValidateHistory(res, historyUnverified)
 	const team = ValidateTeamParam(res, teamUnverified)
-	if (!team || !board || typeof epts !== "string") return undefined
+	if (!team || !board || typeof epts !== "string" || !depth || !history)
+		return undefined
 
 	const map: Tile[] = Array.from(Array(64).keys()).map(i => new Tile(i, null))
 
@@ -91,7 +95,8 @@ app.post("/api/getComputerMove/:team", async (req, res) => {
 	}
 
 	const game = new Board(epts, map)
-	const move = new Bot(game, new Team(team), depth).getBestMove()
+	const move = new MinimaxBot(game, new Team(team), depth).getBestMove()
+	console.log("History: ", history)
 	res.send(addNotation(game, move))
 	console.timeEnd("getComputerMove")
 })
