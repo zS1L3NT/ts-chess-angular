@@ -34,10 +34,10 @@ export default class Bot {
 			const enemy = team.getEnemy()
 			const allMoves = enemy.getAllSafeMoves(result)
 
-			if (depth === 1) {
-				scores.push(result.getPoints())
-			} else if (allMoves.length === 0) {
+			if (allMoves.length === 0) {
 				scores.push(Infinity * this.team.getDirection())
+			} else if (depth === 1) {
+				scores.push(result.getPoints())
 			} else {
 				scores.push(
 					this.getBestResult(result, enemy, allMoves, depth - 1)
