@@ -110,10 +110,6 @@ export default class Bishop extends Piece {
 		)
 	}
 
-	/**
-	 * : Development methods
-	 */
-
 	public getString(): string {
 		return this.getTeam().getString() === "white" ? "B" : "b"
 	}

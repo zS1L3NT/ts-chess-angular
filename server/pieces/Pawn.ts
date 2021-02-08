@@ -223,10 +223,6 @@ export default class Pawn extends Piece {
 		)
 	}
 
-	/**
-	 * : Development methods
-	 */
-
 	public getString(): string {
 		return this.getTeam().getString() === "white" ? "P" : "p"
 	}

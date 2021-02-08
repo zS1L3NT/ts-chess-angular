@@ -111,10 +111,6 @@ export default class Queen extends Piece {
 		)
 	}
 
-	/**
-	 * : Development methods
-	 */
-
 	public getString(): string {
 		return this.getTeam().getString() === "white" ? "Q" : "q"
 	}
