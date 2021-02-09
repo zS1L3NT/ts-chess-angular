@@ -3,7 +3,6 @@ import Board from "./board/Board"
 import BoardUtils from "./board/BoardUtils"
 import Team from "./board/Team"
 import Tile from "./board/Tile"
-import MinimaxBot from "./MinimaxBot"
 import {
 	addNotation,
 	ConvertPiece,
@@ -14,9 +13,8 @@ import {
 	ValidateTeamParam
 } from "./conversions"
 import path from "path"
-import Move from "./board/Move"
+import movemaker from "./movemaker"
 
-const database = require("./database.json")
 const app = express()
 const PORT = process.env.PORT || 5000
 
@@ -98,49 +96,8 @@ app.post("/api/getComputerMove/:team", async (req, res) => {
 	}
 
 	const game = new Board(epts, map)
-	let move!: Move
-
-	let ref = database
-	for (let i = 0, il = history.length; i < il; i++) {
-		const notation = history[i]
-		ref = ref ? ref[notation] : undefined
-	}
-
-	if (ref === undefined || ref.wins.total === 0) {
-		move = new MinimaxBot(game, new Team(team), depth).getBestMove()
-	} else {
-		const notations = Object.keys(ref).filter(n => n !== "wins")
-		let bestPercent = 0
-		let bestTotalGames = 0
-		let bestMove = ""
-
-		for (let i = 0, il = notations.length; i < il; i++) {
-			const notation = notations[i]
-
-			const result = ref[notation].wins
-			const percent = result[team] / result.total
-
-			if (
-				percent > bestPercent ||
-				(percent === bestPercent && result.total > bestTotalGames)
-			) {
-				bestPercent = percent
-				bestTotalGames = result.total
-				bestMove = notation
-			}
-
-			const safeMoves = new Team(team).getAllSafeMoves(game)
-			for (let i = 0, il = safeMoves.length; i < il; i++) {
-				const safeMove = addNotation(game, safeMoves[i])
-				if (safeMove.notation === bestMove) {
-					move = safeMove
-					break
-				}
-			}
-		}
-	}
-
-	res.send(addNotation(game, move))
+	
+	res.send(addNotation(game, movemaker(game, depth, history, team)))
 	console.timeEnd("getComputerMove")
 })
 
