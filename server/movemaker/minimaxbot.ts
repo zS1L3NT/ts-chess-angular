@@ -35,7 +35,17 @@ export default class MinimaxBot {
 			const allMoves = enemy.getAllSafeMoves(result)
 
 			if (allMoves.length === 0) {
-				scores.push(Infinity * this.team.getDirection())
+				if (enemy.isKingSafe(result)) {
+					/**
+					 * Draw
+					 */
+					scores.push(0)
+				} else {
+					/**
+					 * Checkmate
+					 */
+					scores.push(Infinity * this.team.getDirection())
+				}
 			} else if (depth === 1) {
 				scores.push(result.getPoints())
 			} else {
