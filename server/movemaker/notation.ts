@@ -145,7 +145,9 @@ export default class Notation {
 					? this.move.predator[0].toLowerCase()
 					: ""
 				: this.predator.toUpperCase()) +
-			this.fileRankBoardCode.toLowerCase() +
+			(this.predator.toUpperCase() === "P"
+				? ""
+				: this.fileRankBoardCode.toLowerCase()) +
 			(this.attacking ? "x" : "") +
 			this.destination.toLowerCase() +
 			(this.promotes ? `=${this.promotes.toUpperCase()}` : "") +
