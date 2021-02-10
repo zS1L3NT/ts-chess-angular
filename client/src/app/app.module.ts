@@ -13,7 +13,8 @@ import { AttackedBorderComponent } from "./game/attacked-border/attacked-border.
 import { GameComponent } from "./game/game.component"
 import { WinBannerComponent } from "./win-banner/win-banner.component"
 import { PlayerSelectComponent } from "./player-select/player-select.component";
-import { HasmoveBorderComponent } from './game/hasmove-border/hasmove-border.component'
+import { HasmoveBorderComponent } from './game/hasmove-border/hasmove-border.component';
+import { AddToDatabaseComponent } from './add-to-database/add-to-database.component'
 
 @NgModule({
 	declarations: [
@@ -26,7 +27,8 @@ import { HasmoveBorderComponent } from './game/hasmove-border/hasmove-border.com
 		GameComponent,
 		WinBannerComponent,
 		PlayerSelectComponent,
-		HasmoveBorderComponent
+		HasmoveBorderComponent,
+		AddToDatabaseComponent
 	],
 	imports: [
 		BrowserAnimationsModule,

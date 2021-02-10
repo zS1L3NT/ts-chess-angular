@@ -94,9 +94,6 @@ class Knight extends Piece_1.default {
     copy() {
         return new Knight(this.getPosition(), this.getTeam(), JSON.parse(JSON.stringify(this.getHistory())));
     }
-    /**
-     * : Development methods
-     */
     getString() {
         return this.getTeam().getString() === "white" ? "N" : "n";
     }

@@ -12,13 +12,41 @@ import {
 	ValidateHistory,
 	ValidateTeamParam
 } from "./conversions"
+import fs from "fs"
 import path from "path"
 import movemaker from "./movemaker"
+import addToDatabase from "./movemaker/database"
 
 const app = express()
 const PORT = process.env.PORT || 5000
 
-app.use(express.json())
+/**
+ * Initialise database
+ */
+const database = {
+	wins: {
+		white: 0,
+		black: 0,
+		draw: 0,
+		total: 0
+	}
+}
+
+console.log("Adding files to database...")
+const start = new Date().getTime()
+
+const fileNames = fs.readdirSync(path.join(__dirname, "movemaker", "PGNs"))
+fileNames.forEach(fileName => {
+	const file = fs.readFileSync(path.join(__dirname, "movemaker", "PGNs", fileName), {
+		encoding: "utf8"
+	})
+
+	addToDatabase(database, file)
+})
+
+console.log(`Files added successfully (${new Date().getTime() - start}ms) ✔️`)
+
+app.use(express.json({ limit: "50mb" }))
 app.use(express.urlencoded({ extended: false }))
 app.use(function (_req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*")
@@ -97,7 +125,7 @@ app.post("/api/getComputerMove/:team", async (req, res) => {
 
 	const game = new Board(epts, map)
 	
-	res.send(addNotation(game, movemaker(game, depth, history, team)))
+	res.send(addNotation(game, movemaker(database, game, depth, history, team)))
 	console.timeEnd("getComputerMove")
 })
 
@@ -151,6 +179,14 @@ app.post("/api/getGameStatus", (req, res) => {
 			res.status(200).send({ status: "black" })
 		}
 	}
+})
+
+app.post("/api/database", (req, res) => {
+	const file = req.body.file as string
+
+	if (!file) return res.status(400).send("No file data")
+	addToDatabase(database, file)
+	res.status(200).send("Done at " + new Date())
 })
 
 app.use(express.static(path.resolve(__dirname, "..", "..", "client", "dist")))

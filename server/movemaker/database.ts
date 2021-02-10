@@ -1,11 +1,3 @@
-import fs from "fs"
-import path from "path"
-
-/**
- * Parse database file after PGNs
- */
-const database = require("./database.json")
-
 /**
  * Convert's PGN File Data into a JSON Object to be parsed later on
  * @param PGN PGN String data
@@ -70,7 +62,11 @@ const setStackAndTrace = (
 	setStackAndTrace(ref[currentMove], stack, winner)
 }
 
-export default (file: string) => {
+export default (database: any, file: string) => {
+	/**
+	 * Parse database file after PGNs
+	 */
+
 	const PGNs: string[] = []
 	file.split("[Event ")
 		.slice(1)
@@ -87,24 +83,4 @@ export default (file: string) => {
 		database.wins.total++
 		setStackAndTrace(database, JSON.GAME, JSON.winner)
 	}
-
-	fs.writeFileSync(
-		path.join(__dirname, "database.json"),
-		JSON.stringify(database)
-	)
 }
-
-// const PGNs: string[] = []
-// const fileNames = fs.readdirSync(path.join(__dirname, "PGNs"))
-
-// fileNames.forEach(fileName => {
-// const file = fs.readFileSync(path.join(__dirname, "PGNs", fileName), {
-// encoding: "utf8"
-// })
-//
-// file.split("[Event ")
-// .slice(1)
-// .forEach(game => {
-// PGNs.push("[Event " + game)
-// })
-// })

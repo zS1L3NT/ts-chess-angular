@@ -134,9 +134,6 @@ class King extends Piece_1.default {
     copy() {
         return new King(this.getPosition(), this.getTeam(), JSON.parse(JSON.stringify(this.getHistory())));
     }
-    /**
-     * : Development methods
-     */
     getString() {
         return this.getTeam().getString() === "white" ? "K" : "k";
     }

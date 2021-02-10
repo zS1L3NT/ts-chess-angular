@@ -17,12 +17,35 @@ const Board_1 = __importDefault(require("./board/Board"));
 const BoardUtils_1 = __importDefault(require("./board/BoardUtils"));
 const Team_1 = __importDefault(require("./board/Team"));
 const Tile_1 = __importDefault(require("./board/Tile"));
-const Bot_1 = __importDefault(require("./Bot"));
 const conversions_1 = require("./conversions");
+const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
+const movemaker_1 = __importDefault(require("./movemaker"));
+const database_1 = __importDefault(require("./movemaker/database"));
 const app = express_1.default();
 const PORT = process.env.PORT || 5000;
-app.use(express_1.default.json());
+/**
+ * Initialise database
+ */
+const database = {
+    wins: {
+        white: 0,
+        black: 0,
+        draw: 0,
+        total: 0
+    }
+};
+console.log("Adding files to database...");
+const start = new Date().getTime();
+const fileNames = fs_1.default.readdirSync(path_1.default.join(__dirname, "movemaker", "PGNs"));
+fileNames.forEach(fileName => {
+    const file = fs_1.default.readFileSync(path_1.default.join(__dirname, "movemaker", "PGNs", fileName), {
+        encoding: "utf8"
+    });
+    database_1.default(database, file);
+});
+console.log(`Files added successfully (${new Date().getTime() - start}ms) ✔️`);
+app.use(express_1.default.json({ limit: "50mb" }));
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use(function (_req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -47,20 +70,25 @@ app.post("/api/getAllSafeMoves", (req, res) => {
     }
     const game = new Board_1.default(epts, map);
     res.send({
-        white: new Team_1.default("white").getAllSafeMoves(game),
-        black: new Team_1.default("black").getAllSafeMoves(game)
+        white: new Team_1.default("white")
+            .getAllSafeMoves(game)
+            .map(move => conversions_1.addNotation(game, move)),
+        black: new Team_1.default("black")
+            .getAllSafeMoves(game)
+            .map(move => conversions_1.addNotation(game, move))
     });
 });
 app.post("/api/getComputerMove/:team", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("getComputerMove...");
     console.time("getComputerMove");
-    const { board: boardUnverified, epts: eptsUnverified, depth: depthUnverified } = req.body;
+    const { board: boardUnverified, epts: eptsUnverified, depth: depthUnverified, history: historyUnverified } = req.body;
     const { team: teamUnverified } = req.params;
     const board = conversions_1.ValidateBoardBody(res, boardUnverified);
     const epts = conversions_1.ValidateEPTS(res, eptsUnverified);
     const depth = conversions_1.ValidateDepth(res, depthUnverified);
+    const history = conversions_1.ValidateHistory(res, historyUnverified);
     const team = conversions_1.ValidateTeamParam(res, teamUnverified);
-    if (!team || !board || typeof epts !== "string")
+    if (!team || !board || typeof epts !== "string" || !depth || !history)
         return undefined;
     const map = Array.from(Array(64).keys()).map(i => new Tile_1.default(i, null));
     for (let i = 0, il = board.length; i < il; i++) {
@@ -73,7 +101,7 @@ app.post("/api/getComputerMove/:team", (req, res) => __awaiter(void 0, void 0, v
         map[position].setPiece(conversions_1.ConvertPiece(piece));
     }
     const game = new Board_1.default(epts, map);
-    res.send(new Bot_1.default(game, new Team_1.default(team), depth).getBestMove());
+    res.send(conversions_1.addNotation(game, movemaker_1.default(database, game, depth, history, team)));
     console.timeEnd("getComputerMove");
 }));
 app.post("/api/getGameStatus", (req, res) => {
@@ -119,6 +147,13 @@ app.post("/api/getGameStatus", (req, res) => {
             res.status(200).send({ status: "black" });
         }
     }
+});
+app.post("/api/database", (req, res) => {
+    const file = req.body.file;
+    if (!file)
+        return res.status(400).send("No file data");
+    database_1.default(database, file);
+    res.status(200).send("Done at " + new Date());
 });
 app.use(express_1.default.static(path_1.default.resolve(__dirname, "..", "..", "client", "dist")));
 app.get("*", (_req, res) => {

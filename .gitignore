@@ -1,6 +1,7 @@
 /node_modules
 .prettierrc
 .editorconfig
+/.vscode
 *.js.map
 
 /client/node_modules

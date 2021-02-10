@@ -3,9 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ValidateEPTS = exports.ValidateDepth = exports.ValidateBoardBody = exports.ValidateTeamParam = exports.ConvertPiece = void 0;
+exports.ValidateHistory = exports.ValidateEPTS = exports.ValidateDepth = exports.ValidateBoardBody = exports.ValidateTeamParam = exports.addNotation = exports.ConvertPiece = void 0;
 const BoardUtils_1 = __importDefault(require("./board/BoardUtils"));
 const Team_1 = __importDefault(require("./board/Team"));
+const notation_1 = __importDefault(require("./movemaker/notation"));
 const Bishop_1 = __importDefault(require("./pieces/Bishop"));
 const King_1 = __importDefault(require("./pieces/King"));
 const Knight_1 = __importDefault(require("./pieces/Knight"));
@@ -31,6 +32,8 @@ const ConvertPiece = (piece) => {
     }
 };
 exports.ConvertPiece = ConvertPiece;
+const addNotation = (board, move) => (Object.assign(Object.assign({}, move), { notation: new notation_1.default(board, move).getString() }));
+exports.addNotation = addNotation;
 const ValidateTeamParam = (res, team) => {
     if (!team) {
         res.status(400).send(`Must provide 'team' parameter`);
@@ -80,6 +83,7 @@ exports.ValidateBoardBody = ValidateBoardBody;
 const ValidateDepth = (res, depth) => {
     if (typeof depth !== "number") {
         res.status(400).send(`depth must be a number but got (${depth})`);
+        return;
     }
     return depth;
 };
@@ -98,4 +102,23 @@ const ValidateEPTS = (res, epts) => {
     return epts;
 };
 exports.ValidateEPTS = ValidateEPTS;
+const ValidateHistory = (res, history) => {
+    if (typeof history !== "object") {
+        res.status(400).send(`history must be a list of strings but got (${history})`);
+        return;
+    }
+    if (typeof history[0] === "undefined") {
+        res.status(400).send(`history must be a list of strings but got (${history})`);
+        return;
+    }
+    for (let i = 0, il = history.length; i < il; i++) {
+        const item = history[i];
+        if (typeof item !== "string") {
+            res.status(400).send(`hitory must be a list of strings but item at ${i} is (${history[i]})`);
+            return;
+        }
+    }
+    return history;
+};
+exports.ValidateHistory = ValidateHistory;
 //# sourceMappingURL=conversions.js.map

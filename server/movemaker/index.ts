@@ -4,8 +4,8 @@ import Team from "../board/Team"
 import { addNotation } from "../conversions"
 import MinimaxBot from "./minimaxbot"
 
-const database = require("./database.json")
 export default (
+	database: any,
 	board: Board,
 	depth: number,
 	history: string[],

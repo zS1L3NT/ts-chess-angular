@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Bot {
+class MinimaxBot {
     constructor(board, team, depth) {
         this.board = board;
         this.team = team;
         this.depth = depth;
     }
-    getBestMove() {
+    calculate() {
         const allMoves = this.team.getAllSafeMoves(this.board);
         return allMoves[this.getBestResult(this.board, this.team, allMoves, this.depth)];
     }
@@ -17,11 +17,22 @@ class Bot {
             const result = board.execute(move);
             const enemy = team.getEnemy();
             const allMoves = enemy.getAllSafeMoves(result);
-            if (depth === 1) {
-                scores.push(result.getPoints());
+            if (allMoves.length === 0) {
+                if (enemy.isKingSafe(result)) {
+                    /**
+                     * Draw
+                     */
+                    scores.push(0);
+                }
+                else {
+                    /**
+                     * Checkmate
+                     */
+                    scores.push(Infinity * this.team.getDirection());
+                }
             }
-            else if (allMoves.length === 0) {
-                scores.push(Infinity * this.team.getDirection());
+            else if (depth === 1) {
+                scores.push(result.getPoints());
             }
             else {
                 scores.push(this.getBestResult(result, enemy, allMoves, depth - 1));
@@ -32,5 +43,5 @@ class Bot {
             : team.getBestScore(scores);
     }
 }
-exports.default = Bot;
-//# sourceMappingURL=Bot.js.map
+exports.default = MinimaxBot;
+//# sourceMappingURL=minimaxbot.js.map
