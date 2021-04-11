@@ -10,3 +10,5 @@
 
 /server/database.ts
 /server/PGNs
+
+/engine/*
