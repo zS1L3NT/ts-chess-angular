@@ -1,0 +1,1 @@
+Angular + NodeTS Chess engine that is very slow
