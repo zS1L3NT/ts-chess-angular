@@ -6,7 +6,6 @@
 
 /client/node_modules
 /client/e2e
-/client/*.*
 
 /server/database.ts
 /server/PGNs
