@@ -5,7 +5,8 @@
 	"main": "build/server.js",
 	"author": "zS1L3NT",
 	"scripts": {
-		"start": "node server/build/server.js"
+		"start": "node build/server.js",
+		"build": "tsc"
 	},
 	"dependencies": {
 		"express": "^4.17.1"
