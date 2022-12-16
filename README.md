@@ -1,10 +1,10 @@
-# Chess Engine
+# Web Chess Engine
 
 ![License](https://img.shields.io/github/license/zS1L3NT/web-chess?style=for-the-badge) ![Languages](https://img.shields.io/github/languages/count/zS1L3NT/web-chess?style=for-the-badge) ![Top Language](https://img.shields.io/github/languages/top/zS1L3NT/web-chess?style=for-the-badge) ![Commit Activity](https://img.shields.io/github/commit-activity/y/zS1L3NT/web-chess?style=for-the-badge) ![Last commit](https://img.shields.io/github/last-commit/zS1L3NT/web-chess?style=for-the-badge)
 
-Chess Engine is a chess engine written in JavaScript. It is project that was semi-complete then abandoned. It consists of an Express backend which calculates legal moves on a board and an Angular frontend which displays the chessboard. The engine also has a simple position evaluator (you can call it an AI) which calculates the best move on the current board and plays that move. It's rating is definitely below 400 on chess.com.
+Web Chess Engine is a chess engine written in JavaScript. It is project that was semi-complete then abandoned. It consists of an Express backend which calculates legal moves on a board and an Angular frontend which displays the chessboard. The engine also has a simple position evaluator (you can call it an AI) which calculates the best move on the current board and plays that move. It's rating is definitely below 400 on chess.com.
 
-This is a rebuild of the original [Chess Engine](https://github.com/zS1L3NT/chess-online) written in Java. This is a very old project which has been rebuilt **again** in Rust and React called [Chess Engine](https://github.com/zS1L3NT/rs-tauri-chess), a much quicker chess engine that has been tested completely.
+This is a rebuild of the original [Chess Online](https://github.com/zS1L3NT/chess-online) written in Java. This is a very old project which has been rebuilt **again** in Rust and React called [Tauri Chess Engine](https://github.com/zS1L3NT/rs-tauri-chess), a much quicker chess engine that has been tested completely.
 
 This project taught me to never use Angular again.
 
